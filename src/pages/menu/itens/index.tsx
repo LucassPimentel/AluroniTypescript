@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Item from "./item";
-import itens from "./itens.json";
-import styles from "./Itens.module.scss";
+import menu from "data/menu.json";
+import styles from "./Menu.module.scss";
+import { Menu } from "Types/Dish";
 
 interface Props {
   search: string;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export default function Itens(props: Props) {
-  const [list, setList] = useState(itens);
+  const [list, setList] = useState(menu);
   const { search, filterId, order } = props;
 
   function trySearch(title: string) {
@@ -23,7 +24,7 @@ export default function Itens(props: Props) {
     return true;
   }
 
-  function sortList(newList: typeof itens) {
+  function sortList(newList: Menu) {
     switch (order) {
       case "porcao":
         return newList.sort((a, b) => (a.size > b.size ? 1 : -1));
@@ -37,17 +38,17 @@ export default function Itens(props: Props) {
   }
 
   useEffect(() => {
-    const newList = itens.filter(
+    const newList = menu.filter(
       (item) => trySearch(item.title) && tryFilter(item.category.id)
     );
     setList(sortList(newList));
   }, [search, filterId, order]);
 
   return (
-    <div className={styles.itens}>
+    <div className={styles.menu}>
       {list.map((item) => (
-        <div>
-          <Item key={item.id} {...item} />
+        <div key={item.id}>
+          <Item {...item} />
         </div>
       ))}
     </div>
