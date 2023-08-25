@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import styles from "./CommonPage.module.scss";
 import themeStyles from "styles/Theme.module.scss";
 
-export default function CommmonPage({
+export default function CommonPage({
   children,
 }: {
   children?: React.ReactNode;

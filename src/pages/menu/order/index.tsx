@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import styles from "./Order.module.scss";
 import options from "./options.json";
 import classNames from "classnames";
@@ -8,8 +8,7 @@ interface Props {
   order: string;
   setOrder: React.Dispatch<React.SetStateAction<string>>;
 }
-
-export default function Order({ order, setOrder }: Props) {
+function Order({ order, setOrder }: Props) {
   const [open, setOpen] = useState(false);
   const orderName = order && options.find((opt) => opt.value === order)?.nome;
 
@@ -17,7 +16,7 @@ export default function Order({ order, setOrder }: Props) {
     <button
       className={classNames({
         [styles.order]: true,
-        [styles["order--active"]]: order != "",
+        [styles["order--active"]]: order !== "",
       })}
       onClick={() => setOpen(!open)}
       onBlur={() => setOpen(false)}
@@ -47,3 +46,5 @@ export default function Order({ order, setOrder }: Props) {
     </button>
   );
 }
+
+export default memo(Order);

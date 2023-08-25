@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react";
 import styles from "./Searcher.module.scss";
 import { CgSearch } from "react-icons/cg";
 
@@ -6,7 +7,9 @@ interface Props {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Searcher({ search, setSearch }: Props) {
+function Searcher({ search, setSearch }: Props) {
+  const iconeLupa = useMemo(() => <CgSearch size={20} color="#4C4D5E" />, []);
+
   return (
     <div className={styles.searcher}>
       <input
@@ -14,7 +17,9 @@ export default function Searcher({ search, setSearch }: Props) {
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Buscar"
       />
-      <CgSearch size={20} color="#4C4D5E" />
+      {iconeLupa}
     </div>
   );
 }
+
+export default memo(Searcher);

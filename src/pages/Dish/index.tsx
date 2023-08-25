@@ -1,9 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./Dish.module.scss";
 import menu from "data/menu.json";
-import DishTags from "components/DishTags";
-import NotFound from "pages/NotFound";
-import CommmonPage from "components/CommonPage";
+import { lazy } from "react";
+
+const DishTags = lazy(() => import("components/DishTags"));
+const CommonPage = lazy(() => import("components/CommonPage"));
+const NotFound = lazy(() => import("pages/NotFound"));
 
 export default function Dish() {
   const { id } = useParams();
@@ -16,7 +18,7 @@ export default function Dish() {
   }
 
   return (
-    <CommmonPage>
+    <CommonPage>
       <button onClick={() => navigate(-1)} className={styles.back}>
         {"< Voltar"}
       </button>
@@ -30,6 +32,6 @@ export default function Dish() {
           <DishTags {...dish} />
         </div>
       </section>
-    </CommmonPage>
+    </CommonPage>
   );
 }
