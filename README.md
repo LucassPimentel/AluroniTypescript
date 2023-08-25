@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# Perfomance Aluroni
+- Otimizando a performance - 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Como o React é inteligente o suficiente para atualizar somente o que foi alterado?
+Porque ele tem o Virtual DOM, que é uma representação da interface 'antiga' (anterior a alteração), em memória e ao ser renderizado novamente ele sincroniza o Virtual DOM com o DOM real, evidenciando possíveis alterações de estados e atualizando o DOM real.
+Esse processo é conhecido como reconciliação.
 
-## Available Scripts
+OBS: O React não desmonta e remonta o componente inteiro, apenas o que realmente sofreu alteração. 
 
-In the project directory, you can run:
+### Renderizações desnecessárias  
+Para solucionar renderizações desnecessárias, podemos utilizar o memo, que basicamente memoriza o componente e evita que ele seja renderizado novamente quando não há mudanças de props. Interessante utiliza-lo quando o componente re-renderiza muitas vezes com as mesmas props, listas
 
-### `npm start`
+OBS: Deve ser utilizado com cuidado, pois pode gerar um impacto na performance da aplicação.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Hook useMemo
+É utilizado basicamente para memorizar variáveis. Funciona como o useEffect (questão de parâmetros), o 1o parâmetro é uma função anônimo ou arrow function e o 2o é um array de dependências para que caso algum estado mudar ele altera a variável do useMemo
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### memo X useMemo
+Basicamente, memo retorna um componente e o useMemo retorna uma variável, ou seja, a maior diferença entre os dois está no retorno.
+- O memo normalmente é utilizado em exports de componentes, mas nada impede que você o utilize dentro de um componente. (mesmo que isto não seja recomendado).
+- O useMemo deve ser usado dentro de um componente, então, memoizando uma variável você a utiliza dentro do componente que você estiver, e terá no array de dependências os states/props necessários para que aquela variável atualize.
 
-### `npm test`
+### Performance entre telas 
+#### Code splitting
+Cria múltiplos pacotes para serem carregados, diminuindo o tamanho dos pacotes e consequentemente o tempo levado para carrega-los.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Lazy Loading
+Carrega os arquivos apenas quando forem necessários (o download será feito apenas uma vez).
 
-### `npm run build`
+#### Dynamic Import
+Faz a importação somente quando é necessário.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+OBS: O React.lazy tem a função de importar os componentes de forma "preguiçosa", apenas quando necessário.
